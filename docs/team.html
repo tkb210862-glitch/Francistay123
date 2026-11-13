@@ -1,25 +1,451 @@
 <!DOCTYPE html>
-<html lang="zh"><head>
+<html lang="zh">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="60">
-<title>爆款雷达 · 还在加载</title>
+<title>工作台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       background:#0a0d13;color:#e8e8ea;text-align:center;padding:24px;
-       font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
-  .spin{width:34px;height:34px;margin:0 auto 26px;border:3px solid #2a2f3a;
-        border-top-color:#ff785a;border-radius:50%;animation:s 1s linear infinite}
-  @keyframes s{to{transform:rotate(360deg)}}
-  h1{font-size:23px;margin:0 0 14px;font-weight:600}
-  p{margin:8px 0;color:#9a9aa2;font-size:15px;line-height:1.75}
-  .hint{margin-top:30px;font-size:13.5px;color:#6e6e78}
-  @media(prefers-reduced-motion:reduce){.spin{animation:none}}
-</style></head><body><div>
-  <div class="spin"></div>
-  <h1>你的页面还在加载中,请稍等</h1>
-  <p>第一次大约需要 20-60 分钟。</p>
-  <p>这一页会自己刷新,你可以先去忙别的。</p>
-  <p class="hint">等很久都没变?回到安装 SOP 第 7 步,<br>到仓库的 Actions 看 Sync Content 有没有跑完。</p>
-</div></body></html>
+  :root {
+    --bg:#0a0d13; --card:#11151d; --card-hi:#151a24; --border:#1d2430; --border-hi:#2c3546;
+    --text:#e8ecf3; --muted:#8a94a6; --faint:#5b6577; --accent:#5ea1ff; --green:#3fd68f;
+    --orange:#f0a33f; --pink:#ff6b9d; --red:#ff5c5c; --fire1:#ff8a3d; --fire2:#ff4d6d;
+    --font:'Inter',-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+    --disp:'Space Grotesk','Inter','PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:var(--font); -webkit-font-smoothing:antialiased; }
+  ::selection { background:rgba(94,161,255,.3); }
+  ::-webkit-scrollbar { width:10px; } ::-webkit-scrollbar-thumb { background:#232c3b; border-radius:8px; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
+  .ic { width:14px; height:14px; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none; flex:none; }
+
+  header { position:sticky; top:0; z-index:50; background:rgba(10,13,19,.86);
+    backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:13px 20px; }
+  .hrow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; max-width:1200px; margin:0 auto; }
+  .brand { display:flex; align-items:center; gap:10px; margin-right:auto; }
+  .mark { width:31px; height:31px; border-radius:9px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--fire1),var(--fire2)); box-shadow:0 4px 16px rgba(255,92,80,.35); }
+  .mark .ic { width:17px; height:17px; color:#fff; }
+  h1 { font-family:var(--disp); font-size:16.5px; font-weight:700; line-height:1.15; }
+  h1 small { display:block; color:var(--faint); font-family:var(--font); font-weight:400; font-size:10.5px; }
+  .me { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); cursor:pointer;
+    background:var(--card); border:1px solid var(--border); border-radius:10px; padding:7px 12px;
+    transition:border-color .18s; }
+  .me:hover { border-color:var(--border-hi); }
+  .me b { color:var(--text); }
+
+  nav { display:flex; gap:7px; max-width:1200px; margin:12px auto 0; flex-wrap:wrap; }
+  .ntab { display:inline-flex; align-items:center; gap:7px; background:var(--card);
+    border:1px solid var(--border); border-radius:999px; padding:7px 16px; font-size:13.5px;
+    color:var(--muted); cursor:pointer; user-select:none; transition:all .18s; }
+  .ntab:hover { border-color:var(--border-hi); color:var(--text); }
+  .ntab.on { color:var(--text); background:linear-gradient(135deg,rgba(255,138,61,.15),rgba(255,77,109,.15));
+    border-color:rgba(255,120,90,.45); }
+
+  main { max-width:1200px; margin:22px auto; padding:0 20px; }
+  .page { display:none; } .page.on { display:block; }
+
+  .stats { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+  .stat { flex:1; min-width:130px; background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:14px 16px; }
+  .stat .v { font-family:var(--disp); font-size:26px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .stat .l { color:var(--faint); font-size:12px; margin-top:2px; }
+  .stat.sh .v { color:var(--orange); } .stat.dn .v { color:var(--green); } .stat.pd .v { color:var(--accent); }
+
+  section { background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:16px 18px; margin-bottom:16px; }
+  section h2 { font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+  section h2 .ic { color:var(--orange); }
+  section h2 small { color:var(--faint); font-weight:400; font-size:11.5px; margin-left:auto; }
+  .row { display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--border);
+    font-size:13px; flex-wrap:wrap; }
+  .row .hookline { flex:1; min-width:200px; color:var(--text); overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; }
+  .row .hookline small { color:var(--faint); display:block; font-size:11px; margin-top:1px; }
+  .row .who2 { color:var(--accent); text-decoration:none; font-weight:600; font-size:12px; white-space:nowrap; }
+  .xb { font-family:var(--disp); font-weight:600; font-size:11px; color:var(--orange);
+    border:1px solid rgba(240,163,63,.4); background:rgba(240,163,63,.07); border-radius:99px;
+    padding:2px 8px; white-space:nowrap; }
+  .pill { display:inline-flex; align-items:center; gap:4px; background:#0c0f16; color:var(--muted);
+    border:1px solid var(--border); border-radius:9px; padding:5.5px 10px; font-size:11.5px;
+    cursor:pointer; text-decoration:none; font-family:var(--font); transition:all .18s; white-space:nowrap; }
+  .pill .ic { width:11px; height:11px; }
+  .pill:hover { color:var(--accent); border-color:rgba(94,161,255,.5); }
+  .pill.ok:hover { color:var(--green); border-color:rgba(63,214,143,.5); }
+  .pill.bad:hover { color:var(--red); border-color:rgba(255,92,92,.5); }
+  .none { color:var(--faint); font-size:13px; padding:14px 0 6px; }
+
+  .act { display:flex; gap:9px; padding:7px 0; border-top:1px solid var(--border);
+    font-size:12.5px; color:var(--muted); }
+  .act time { color:var(--faint); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .act b { color:var(--text); font-weight:600; }
+  .act .to { color:var(--orange); }
+
+  #radarWrap { height:calc(100vh - 150px); min-height:500px; border:1px solid var(--border);
+    border-radius:16px; overflow:hidden; }
+  #radarWrap iframe { width:100%; height:100%; border:0; }
+
+  .sop { max-width:820px; }
+  .sop h3 { font-size:15px; margin:22px 0 10px; display:flex; gap:8px; align-items:center; }
+  .sop h3 .ic { color:var(--orange); }
+  .sop ol { margin:0 0 8px 22px; color:var(--muted); font-size:13.5px; line-height:1.9; }
+  .sop ol b { color:var(--text); }
+  .sop p { color:var(--muted); font-size:13px; line-height:1.7; margin-bottom:6px; }
+  .sop table { border-collapse:collapse; font-size:13px; margin:8px 0; }
+  .sop td, .sop th { border:1px solid var(--border); padding:7px 14px; color:var(--muted); }
+  .sop th { color:var(--text); background:var(--card-hi); }
+
+  #mission { border:1px solid rgba(255,120,90,.35); border-radius:16px; padding:15px 18px;
+    margin-bottom:14px; background:linear-gradient(135deg,rgba(255,138,61,.10),rgba(255,77,109,.10)); }
+  #mission .mt { font-weight:600; font-size:14px; display:flex; gap:8px; align-items:center; }
+  #mission .mt .ic { color:var(--orange); }
+  #mission .md { color:var(--muted); font-size:12.5px; margin-top:5px; line-height:1.6; }
+  #mission .md b { color:var(--text); font-family:var(--disp); }
+  #overlay { position:fixed; inset:0; background:rgba(6,8,12,.88); backdrop-filter:blur(6px);
+    z-index:200; display:none; place-items:center; }
+  #overlay.show { display:grid; }
+  .obox { background:var(--card); border:1px solid var(--border-hi); border-radius:18px;
+    padding:28px 30px; width:min(92vw,380px); }
+  .obox h2 { font-family:var(--disp); font-size:18px; margin-bottom:6px; }
+  .obox p { color:var(--muted); font-size:13px; margin-bottom:16px; }
+  .obox input, .obox select { width:100%; background:#0c0f16; color:var(--text);
+    border:1px solid var(--border); border-radius:10px; padding:10px 13px; font-size:14px;
+    font-family:var(--font); margin-bottom:11px; }
+  .obox input:focus, .obox select:focus { border-color:var(--accent); outline:none; }
+  .obox button { width:100%; background:linear-gradient(135deg,var(--fire1),var(--fire2));
+    color:#fff; border:0; border-radius:10px; padding:11px; font-size:14px; font-weight:600;
+    font-family:var(--font); cursor:pointer; }
+  .obox button:active { transform:scale(.98); }
+
+  #toast { position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(8px);
+    background:var(--card-hi); border:1px solid var(--border-hi); border-radius:11px;
+    padding:11px 20px; font-size:13px; display:none; z-index:300; opacity:0;
+    box-shadow:0 12px 32px rgba(0,0,0,.5); transition:opacity .2s, transform .2s; }
+  #toast.show { display:block; opacity:1; transform:translateX(-50%) translateY(0); }
+  @media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; } }
+</style>
+</head>
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m10 8 6 4-6 4Z"/><rect x="2" y="4" width="20" height="16" rx="3"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+</svg>
+<header>
+  <div class="hrow">
+    <div class="brand">
+      <div class="mark"><svg class="ic"><use href="#i-flame"/></svg></div>
+      <h1>工作台<small id="updated"></small></h1>
+    </div>
+    <div class="me" id="meBtn" title="点击修改身份">
+      <svg class="ic"><use href="#i-user"/></svg><span id="meLabel">未登记</span>
+    </div>
+  </div>
+  <nav>
+    <div class="ntab on" data-p="work"><svg class="ic"><use href="#i-clock"/></svg>今日工作</div>
+    <div class="ntab" data-p="radar"><svg class="ic"><use href="#i-radar"/></svg>爆款雷达</div>
+    <div class="ntab" data-p="sop"><svg class="ic"><use href="#i-book"/></svg>SOP</div>
+  </nav>
+</header>
+<main>
+  <div class="page on" id="p-work">
+    <div id="mission"></div>
+    <div class="stats">
+      <div class="stat pd"><div class="v" id="stPending">–</div><div class="l">未处理(待挑选)</div></div>
+      <div class="stat sh"><div class="v" id="stShoot">–</div><div class="l">拍摄中</div></div>
+      <div class="stat dn"><div class="v" id="stDone">–</div><div class="l">已处理</div></div>
+    </div>
+    <section id="secShoot">
+      <h2><svg class="ic"><use href="#i-video"/></svg>拍摄中队列<small>做完一条,点「完成」</small></h2>
+      <div id="shootList"></div>
+    </section>
+    <section id="secPick">
+      <h2><svg class="ic"><use href="#i-flame"/></svg>本周待挑选爆款 Top 8<small>看中就点「选中拍摄」,细看去爆款雷达</small></h2>
+      <div id="pickList"></div>
+    </section>
+  </div>
+  <div class="page" id="p-radar"><div id="radarWrap"></div></div>
+  <div class="page sop" id="p-sop">
+    <section>
+      <h3><svg class="ic"><use href="#i-flame"/></svg>SOP-01 · Marketer 每周选题流程(周一,约30分钟)</h3>
+      <ol>
+        <li>打开<b>爆款雷达</b>,点快筛「<b>真爆款 ×2+</b>」+「<b>近7天</b>」</li>
+        <li>看「爆款热词」确认本周主题方向(热词越多的主题越优先)</li>
+        <li>挑 <b>3–5 条</b>适合改编的。标准:话题跟我们相关 / Hook 可复制 / 我们拍得出来</li>
+        <li>每条点「<b>Brief</b>」复制 → 发到拍摄群</li>
+        <li>把选中的卡片<b>拖到「拍摄中」</b></li>
+        <li>明显不适合的拖「跳过」,保持未处理越少越好</li>
+      </ol>
+    </section>
+    <section>
+      <h3><svg class="ic"><use href="#i-video"/></svg>SOP-02 · Content Creator 拍摄改编流程(每条 ≤1天)</h3>
+      <ol>
+        <li>打开工作台「<b>今日工作</b>」,看拍摄中队列,从最旧的开始</li>
+        <li>打开原帖看 <b>3 遍</b>:第1遍看整体 / 第2遍拆 Hook(前3秒为什么让人停下) / 第3遍记结构(几个镜头、什么节奏)</li>
+        <li><b>改编不照抄</b>:换成我们的案例、口吻、行业。保留结构,替换内容</li>
+        <li>拍摄 → 剪辑。<b>前3秒必须有钩子</b>,字幕开头即出</li>
+        <li>发布后回到工作台,该条点「<b>完成</b>」</li>
+      </ol>
+    </section>
+    <section>
+      <h3><svg class="ic"><use href="#i-book"/></svg>SOP-03 · 状态定义(团队统一语言)</h3>
+      <table>
+        <tr><th>状态</th><th>意思</th><th>谁负责改</th></tr>
+        <tr><td>未处理</td><td>还没人筛选过</td><td>Marketer 每周清理</td></tr>
+        <tr><td>拍摄中</td><td>已选中,正在改编/拍摄/剪辑</td><td>Marketer 选中时拖入</td></tr>
+        <tr><td>已处理</td><td>已发布或已完成改编</td><td>Creator 完成时点</td></tr>
+        <tr><td>跳过</td><td>不适合我们,不再考虑</td><td>任何人</td></tr>
+      </table>
+    </section>
+    <section>
+      <h3><svg class="ic"><use href="#i-radar"/></svg>SOP-04 · 看到「引流」标签的帖子怎么学</h3>
+      <p>带「引流」标的帖子,重点<b>不是内容,是漏斗</b>。记录三件事:</p>
+      <ol>
+        <li>留言<b>关键词</b>是什么?(例:留言「Start」)</li>
+        <li>送的<b>诱饵</b>是什么?(模板 / 课程 / 清单)</li>
+        <li>之后导去<b>哪里</b>?(DM 自动回复 → 链接 → 报名页)</li>
+      </ol>
+      <p>好的打法直接抄结构,用我们的 GHL / ManyChat 实现。</p>
+    </section>
+    <section>
+      <h3><svg class="ic"><use href="#i-user"/></svg>SOP-05 · 竞对名单管理(发现好账号就加进来)</h3>
+      <ol>
+        <li>打开 Supabase「<b>competitors</b>」表,加一行</li>
+        <li><b>Username</b>:贴账号名或 IG <b>主页</b>链接都行(带 ?igsh= 参数没关系;不要贴帖子链接)</li>
+        <li><b>Tracker</b>:选 IG Competitors 或 AI Competitors</li>
+        <li><b>Active</b>:打勾✅ — <b>没勾不会抓</b></li>
+        <li>每周一自动生效;停止追踪 = 取消勾,不用删行</li>
+      </ol>
+      <p>加账号的标准:跟我们领域相关 / 内容有爆款相 / 值得学。发现雷达里某账号长期没爆款,把它 Active 取消,腾出额度换新的。</p>
+    </section>
+    <section>
+      <h3><svg class="ic"><use href="#i-user"/></svg>SOP-06 · 第一次设置 & 常见问题</h3>
+      <ol>
+        <li><b>登记身份:</b>第一次打开工作台会弹「你是谁」→ 输名字、选角色。这决定你看到的任务卡和排版</li>
+        <li><b>直接改状态:</b>雷达里把卡片拖到上方分类,或用卡片下拉选。看到绿色 ✓ 就成了。<b>不需要输任何密钥</b> —— 这套系统天生只允许改状态,改不了别的数据,所以安全无需登录</li>
+      </ol>
+      <p><b>常见问题:</b></p>
+      <table>
+        <tr><th>现象</th><th>原因</th><th>解决</th></tr>
+        <tr><td>改了状态没反应 / 报错</td><td>网络断了,或页面是旧版</td><td>刷新页面(Ctrl+Shift+R)再试</td></tr>
+        <tr><td>队友改的状态我看不到</td><td>页面最多 10 分钟同步一次</td><td>刷新页面即可;自己的改动是即时的</td></tr>
+        <tr><td>网页打不开 / 数据是空的</td><td>每周自动更新那天可能还在跑</td><td>等 1 小时后再开;还不行找老板看 GitHub Actions</td></tr>
+      </table>
+      <p>状态存在云端(Supabase),换电脑、关机都不会丢,全团队实时共享。</p>
+    </section>
+  </div>
+</main>
+<div id="overlay"><div class="obox">
+  <h2>👋 你是谁?</h2>
+  <p>登记一次,方便团队知道是谁在操作。</p>
+  <input id="oName" placeholder="你的名字" maxlength="20">
+  <select id="oRole">
+    <option value="Marketer">Marketer(选题/投放)</option>
+    <option value="Content Creator">Content Creator(拍摄/剪辑)</option>
+    <option value="Boss">Boss</option>
+  </select>
+  <button id="oSave">进入工作台</button>
+</div></div>
+<div id="toast"></div>
+<script id="data" type="application/json">[{"id": "De_6p2pAkph", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "😮‍💨 想送礼，又怕送得太普通？\n 看起来像棒棒糖，其实是按摩仪 🍭 uLolly 小巧可爱，随手就能放松一下，价钱也很友善，送朋友、送同事都显得有心。\n 提醒一下：不能吃，也不包括老板亲自帮你按 😆\n\n 立即选购 👉🏻 Link in bio\n #OSIMMalaysia #uLolly #按摩仪 #送礼推荐 #小巧好物 #OSIM #OnlineExclusive", "transcript": "欸 賴咪 先買棒棒糖啦棒棒糖可以幫你按摩的可以按摩什麼很好用的 真的 你信我可以做什麼不可以啦這個是按摩依賴的這樣有沒有買一送一有喔 買兩個我們就有送一個盲盒可以拿來按摩的而且價錢也不貴買來送人也剛剛好喔", "brk": "Hook类型: 反常识\n结构: 视觉误导(棒棒糖) → 功能反转(按摩仪) → 促销转化(送礼/买二送一)\n为什么火: 用“像棒棒糖的按摩仪”制造视觉反差，精准切中送礼人群的新奇与性价比需求。\n改编角度: 突出OLylife P90/P90+的太赫兹理疗黑科技与便携外观反差，主打送长辈或自用的健康新选择。", "my": "四十岁带两孩子的离婚女人，每天一个人撑起家里的一切，是不是觉得自己快要散架了？\n\n很多人以为，想要找回当年的精气神和好体质，必须花大把时间去健身房，或者买一堆昂贵的保健品。\n\n其实根本不用那么麻烦，真正管用的是从每天的细胞保养开始。\n\n第一个方法，每天花一点时间使用 OlyLife P90。这个健康仪操作很简单，放在家里随时可以用，主要帮身体做好基础保养，长期用下来整个人精神好很多，价格是 1471 美元，免费送货上门。\n\n第二个方法，如果想要更好的体质和青春状态，可以选择升级版的 OlyLife P90+。两款机器都不用出门买，直接送到家门口，价格是 2207 美元，很适合照顾好自己。\n\n第三个方法，把使用健康仪变成每天的日常习惯。不需要复杂的步骤，只要坚持放松和保养，身体的疲惫感会慢慢减轻，整个人看起来更有活力。\n\n以前每天照顾孩子和生活，累了只能硬扛，连照镜子都觉得气色不好。\n\n现在每天用 OlyLife 帮自己做保养，体质慢慢调理回来，找回了属于自己的状态和青春。\n\n如果你也想对自己好一点，点击主页链接了解详情，我们把 OlyLife 直接免费送货上门。", "tags": "OSIMMalaysia, uLolly, 按摩仪, 送礼推荐, 小巧好物, OSIM, OnlineExclusive", "bait": false, "type": "Video", "likes": 68, "comments": 0, "er": 0.7, "followers": 9706, "date": "2026-10-27", "url": "https://www.instagram.com/p/De_6p2pAkph/", "video": true, "ratio": 0, "score": 0.7, "status": "未处理", "x": 1.3}, {"id": "DfD_dgFgczR", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "🎀 Massage time just got a whole lot cuter.\n\nMeet the OSIM uCozy Heart 2 Sanrio characters Special Collection, the heart-shaped massage cushion you'll actually want to leave out on display ✨\n\n💗 Choose your favourite: Hello Kitty, Pompompurin or Cinnamoroll\n🛋️ A versatile massage cushion from the OSIM Feel Good Series\n🎁 A gift-worthy pick for every Sanrio fan\n🏷️ Special pre-order price for early birds\n\n👉 Pre-order now at https://www.osim.com.my/product/category/Upper-Body-Massagers/uCozy-Heart-2-Versatile-Body-Massager\n\n*T&C apply.\n\n#HelloKitty #Pompompurin #Cinnamoroll #Sanrio #OSIM #uCozyHeart2", "transcript": "", "brk": "Hook类型: 联名萌物吸引\n结构: 萌系外观展示 → 多角色选择 → 预购引导\n为什么火: 经典IP三丽鸥联名戳中粉丝少女心与送礼需求\n改编角度: 突出OLylife P90+高端科技感与送长辈孝心礼物的温情定位", "my": "四十四岁还要照顾两个孩子，每天照镜子的时候，你是不是也觉得自己真的累垮了。\n\n你可能觉得，女人到了这个年纪，气色变差和体力下滑是正常的，只能靠每天喝很多咖啡来硬撑。\n\n其实真的不是这样，这只是你的身体和细胞在发出求救信号，需要深层的能量补充。\n\n第一个方法是每天花十五分钟使用OlyLife P90，放在客厅一边看电视一边用，促进血液循环，让整个人放松下来。\n\n第二个方法是调整作息配合P90+来保养体质，重点是改善睡眠质量，每天早晚各用一次，把底子慢慢调理好。\n\n第三个方法是坚持每天补充水分，搭配仪器的使用帮助新陈代谢，让身体保持活力，找回以前的状态。\n\n以前总觉得自己年纪大了，每天带着两个孩子累得喘不过气，连照镜子的心情都没有。\n\n用了P90+以后，睡眠变好了，气色也慢慢红润起来，每天照顾家里更有精神，找回了属于自己的青春状态。\n\n如果你也想开始好好照顾自己，现在就可以通过主页链接联系我了解P90和P90+，免费送货上门，开启你的保养计划。", "tags": "HelloKitty, Pompompurin, Cinnamoroll, Sanrio, OSIM, uCozyHeart2", "bait": false, "type": "Image", "likes": 56, "comments": 1, "er": 0.59, "followers": 9706, "date": "2026-10-29", "url": "https://www.instagram.com/p/DfD_dgFgczR/", "video": false, "ratio": 0, "score": 0.61, "status": "未处理", "x": 1.1}, {"id": "DfZdUYyjKUv", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "🎀 Calling all Sanrio fans! Something CUTE has arrived at 1 Utama! 💗\n\nDiscover the NEW OSIM uCozy Heart 2 Sanrio Special Collection featuring Hello Kitty, Pompompurin & Cinnamoroll! 🥹💕\n\nDrop by our roadshow to explore the collection, snap some cute photos and enjoy complimentary Sanrio gift-wrapping services on-site with every purchase! 🎁✨\n\n📍 1 Utama, New Wing Concourse\n📅 3–9 November 2026\n🕙 10AM – 10PM\n\nGather your Sanrio besties and come visit us! See you there! 🎀❤️\n\n#OSIM #OSIMxSanrio #uCozyHeart2 #Sanrio #HelloKitty #Pompompurin #Cinnamoroll #1Utama #OSIMRoadshow", "transcript": "", "brk": "Hook类型: 痛点直击\n结构: 联名吸睛 → 现场体验 → 促销引导\n为什么火: 借势超级IP热度，精准收割粉丝注意力。\n改编角度: 结合OLylife P90推出线下体验送专属礼品活动。", "my": "四十岁还要一个人照顾两个孩子，每天照镜子的时候，看着脸上的疲惫，心里真的不是滋味。\n\n你是不是以为，想找回以前的青春和好体质，只能去美容院花大钱，或者天天吃一堆瓶瓶罐罐？\n\n其实根本不用那么麻烦，问题在于你没有找到真正适合自己的居家保养方式。\n\n第一点，每天给自己留出一点时间。坐在家里用OlyLife细胞跑步机，让身体放松下来，找回当年的状态。\n\n第二点，坚持日常的体质保养。不需要复杂的步骤，花点心思照顾自己，把状态慢慢调理回来。\n\n第三点，投资真正适合自己的健康设备。比如入手一台P90要1471，或者选择P90+是2207，两款都免费送货上门，让保养变得很简单。\n\n以前每天围着孩子转，累到没有自己的时间，整个人显得很没有精神。\n\n现在用对了方法在家做保养，不仅体质变好了，连气色和状态也慢慢回到了从前。\n\n如果你也想找回属于自己的青春和好体质，现在就可以通过主页私信我了解更多详情。", "tags": "OSIM, OSIMxSanrio, uCozyHeart2, Sanrio, HelloKitty, Pompompurin, Cinnamoroll, 1Utama, OSIMRoadshow", "bait": false, "type": "Carousel", "likes": 45, "comments": 0, "er": 0.46, "followers": 9706, "date": "2026-11-06", "url": "https://www.instagram.com/p/DfZdUYyjKUv/", "video": false, "ratio": 0, "score": 0.46, "status": "未处理", "x": 0.9}, {"id": "De_RU8lDkJN", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "💗💛💙 Your favourite massage cushion is getting a very sweet makeover.\n\nSomething special is on its way to the OSIM Feel Good Series, and we can't keep it under wraps for much longer ✨\n\n🎀 A cuter take on the uCozy Heart 2 you already love\n☁️ Three dreamy colourways, one for every mood\n🛋️ Made to look as good on your sofa as it feels\n🔍 The clues are hiding in the colours\n\n👇 Drop your guess in the comments. The big reveal is coming soon!\n\n#OSIM #uCozyHeart2 #Sanrio #ComingSoon", "transcript": "", "brk": "Hook类型: 悬念\n结构: 新品预告 → 核心亮点展示 → 评论区互动\n为什么火: 经典IP联名制造期待感，颜值高且戳中少女心\n改编角度: 预告OLylife P90/P90+的限量新配色或升级版配件，借势节日营销吸引粉丝互动", "my": "四十岁还要照顾两个孩子，每天回到家整个人累得像散架一样。\n\n你是不是以为，想找回以前那种轻盈的状态，就得天天花大把时间去外面做全身按摩。\n\n其实真的不用那么麻烦，关键是要懂得在家里照顾好自己的身体。\n\n第一，每天早晚留出一点时间给自己，坐在沙发上好好放松。让身体静下来，把一天的疲惫先放下。这样做能让紧绷的肌肉慢慢放松，找回一点属于自己的空间。\n\n第二，懂得用适合的方法来保养体质。很多四十岁的女人都在用 OlyLife P90 来照顾自己，价格是 1471 美元。把它放在家里，每天用一段时间，帮身体打好基础。\n\n第三，如果想更全面地照顾状态，也可以选择 P90+，价格是 2207 美元。这两款都是直接免费送货上门，不用自己搬。坚持用下来，整个人会感觉轻松很多，气色也慢慢变好。\n\n以前一个人带着两个孩子，每天忙里忙外，连照镜子都觉得累。\n\n用了 P90+ 之后，每天花点时间在自己身上，身体状态变好了，整个人也更有精神去面对生活。\n\n如果你也想找回以前的青春状态，现在就可以通过私信联系我了解详情。", "tags": "OSIM, uCozyHeart2, Sanrio, ComingSoon", "bait": false, "type": "Image", "likes": 22, "comments": 0, "er": 0.23, "followers": 9706, "date": "2026-10-27", "url": "https://www.instagram.com/p/De_RU8lDkJN/", "video": false, "ratio": 0, "score": 0.23, "status": "未处理", "x": 0.4}, {"id": "DeyscwMD-Gz", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "ogawamalaysia", "caption": "✨ 𝗫𝗣𝗘𝗥𝗜𝗘𝗡𝗖𝗘 & 𝗪𝗜𝗡 𝗪𝗜𝗧𝗛 𝗢𝗚𝗔𝗪𝗔! \n\nReady to relax and enjoy exciting rewards? \nExperience the new OGAWA COSMO X, to redeem exclusive gifts and stand a chance to win a massage chair!\n\n📅 Now until 31 October 2026\n💬 Message us to find out how you can participate!\n\n*𝘛𝘦𝘳𝘮𝘴 & 𝘊𝘰𝘯𝘥𝘪𝘵𝘪𝘰𝘯𝘴 𝘢𝘱𝘱𝘭𝘺. 𝘈𝘷𝘢𝘪𝘭𝘢𝘣𝘭𝘦 𝘪𝘯 𝘞𝘦𝘴𝘵 𝘔𝘢𝘭𝘢𝘺𝘴𝘪𝘢 𝘰𝘯𝘭𝘺.\n\n#OgawaMalaysia #OgawaXperienceAndWin #OgawaCosmoX", "transcript": "Come experience Cosmo X and discover our Experience and Win campaign. Relax and experience Cosmo X for yourself. Scan the QR code and register your details to join the campaign. Share a comment and photo for a foot mask. Plus a video for an extra comfy eye mask. Record a testimonial video for a chance to win more prizes. Stand a chance to win a massage chair. Visit Ogawa today. Ogawa.", "brk": "Hook类型: 抽奖福利诱导\n结构: 线下体验 → 扫码参与 → 阶梯式发奖\n为什么火: 用免费按摩椅等高价值奖品降低线下门店引流门槛\n改编角度: 邀请华人粉丝到店体验P90送小礼品并参与抽大奖引流", "my": "四十一岁一个人带两个孩子，你是不是每天累到连照镜子的心思都没有？\n\n很多人以为，女人到了这个年纪，气色变差、体力变差是正常的，只能靠吃各种昂贵的保健品来硬扛。\n\n其实不是这样的，真正的原因是你每天都在透支身体的元气，却没有给细胞补充真正需要的能量。\n\n第一步，每天抽出一短段安静的时间，让自己完全放松下来。坐在家里什么都不要想，闭上眼睛调整呼吸。这样能让紧绷了一整天的神经慢下来，身体的负担也会减轻很多。\n\n第二步，使用 OlyLife P90 来帮助身体做好日常保养。把脚放在上面，让它协助你调理体质。很多像你一样的单亲妈妈都在用它照顾自己的状态，每天花一点时间，帮自己把底子慢慢养回来。\n\n第三步，搭配更全面的 OlyLife P90+ 来全方位照顾自己。它的价格是 2207 美元，而基础款 P90 的价格是 1471 美元。这两款产品都提供免费送货上门的服务，不需要你自己出门搬运，直接送到家里。\n\n以前你可能总是把最好的留给孩子，自己累垮了也不知道怎么心疼自己。\n\n现在你可以每天花一点时间留给自己，用 OlyLife 慢慢找回原本属于你的好状态和好气色。\n\n如果你也想在照顾好孩子的同时，好好爱护自己的身体，现在就通过私信联络我了解详情吧。", "tags": "OgawaMalaysia, OgawaXperienceAndWin, OgawaCosmoX", "bait": false, "type": "Video", "likes": 15, "comments": 2, "er": 0.14, "followers": 12475, "date": "2026-10-22", "url": "https://www.instagram.com/p/DeyscwMD-Gz/", "video": true, "ratio": 0, "score": 0.17, "status": "未处理", "x": 1.2}, {"id": "DegDM5qjIId", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "ogawamalaysia", "caption": "✨ 𝗫𝗣𝗘𝗥𝗜𝗘𝗡𝗖𝗘 & 𝗪𝗜𝗡 𝗪𝗜𝗧𝗛 𝗢𝗚𝗔𝗪𝗔! ✨\nYour next moment of relaxation could bring exciting rewards! \nExperience COSMO X, redeem exclusive gifts and 𝘀𝘁𝗮𝗻𝗱 𝗮 𝗰𝗵𝗮𝗻𝗰𝗲 𝘁𝗼 𝘄𝗶𝗻 a massage chair 𝘄𝗼𝗿𝘁𝗵 𝗥𝗠𝟮𝟬,𝟬𝟬𝟬 and above.\n\n📅 Now until 31 October 2026\n💬 Message us to find out how you can participate!\n\n*𝘛𝘦𝘳𝘮𝘴 & 𝘊𝘰𝘯𝘥𝘪𝘵𝘪𝘰𝘯𝘴 𝘢𝘱𝘱𝘭𝘺. 𝘈𝘷𝘢𝘪𝘭𝘢𝘣𝘭𝘦 𝘪𝘯 𝘞𝘦𝘴𝘵 𝘔𝘢𝘭𝘢𝘺𝘴𝘪𝘢 𝘰𝘯𝘭𝘺.\n\n#OgawaMalaysia #OgawaXperienceAndWin #OgawaCosmoX", "transcript": "", "brk": "Hook类型: 福利诱惑\n结构: 免费体验 → 独家礼品 → 抽奖赢万元大奖\n为什么火: 高价值奖品刺激，零门槛互动提升参与率。\n改编角度: 针对OLylife P90，推出免费体验送健康礼品并抽豪华大奖。", "my": "四十岁一个人带着一对子女，每天最怕的不是累，而是照镜子的时候，发现自己老的太快。\n\n很多人以为，保养体质和维持青春，只能靠去美容院花大钱，或者天天吃一大堆瓶瓶罐罐。\n\n其实不是，真正懂照顾自己的女人，早就开始用更简单的方式把状态找回来。\n\n第一步，每天给自己留出一点时间。\n\n坐在家里，把手机放下，闭上眼睛休息一会儿。\n\n这不仅是给自己喘口气，更是让身体彻底放松下来。\n\n第二步，用对方法帮身体做深层的调理。\n\n很多四十岁的单亲妈妈每天忙里忙外，根本没时间出门做护理。\n\n这时候家里有一台 OlyLife P90，价格是 1471 美元，或者升级版的 P90+，价格是 2207 美元。\n\n这两款都直接免费送货上门，不需要你出门搬，放在家里自己就能用。\n\n它帮你照顾好体质，把气色和状态慢慢养回来。\n\n第三步，保持好心情，照顾好自己的每一天。\n\n以前觉得生活太累，每天照顾孩子连照镜子的心思都没有，整个人看起来比实际年龄老了许多。\n\n现在懂得每天花一点时间好好照顾自己，整个人精神变好了，带孩子也更有活力。\n\n如果你也想在四十岁的时候，依然把体质和青春保养得好好的。\n\n现在就发信息联系我们，了解更多关于 P90 和 P90+ 的详情。", "tags": "OgawaMalaysia, OgawaXperienceAndWin, OgawaCosmoX", "bait": false, "type": "Image", "likes": 18, "comments": 0, "er": 0.14, "followers": 12475, "date": "2026-10-15", "url": "https://www.instagram.com/p/DegDM5qjIId/", "video": false, "ratio": 0, "score": 0.14, "status": "未处理", "x": 1.0}, {"id": "De-80c5kns4", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "ogawamalaysia", "caption": "✨𝗬𝗢𝗨𝗥 𝗙𝗟𝗘𝗫 𝗙𝗔𝗖𝗧𝗢𝗥\n\nMeet 𝗢𝗚𝗔𝗪𝗔 𝗖𝗢𝗦𝗠𝗢 𝗫, featuring innovative 𝟱𝟰𝟬° 𝗙𝗹𝗲𝘅 𝗧𝗲𝗰𝗵𝗻𝗼𝗹𝗼𝗴𝘆 that takes your massage experience beyond the ordinary.\nDiscover a new way to stretch, unwind and experience personalised comfort.\n\n💬 Message us to learn more about 𝗢𝗚𝗔𝗪𝗔 𝗖𝗢𝗦𝗠𝗢 𝗫.\n\n#OgawaMalaysia #OgawaCosmoX #IntelligentComfort #NewEraofComfort #precisiontechnology #YourFlexFactor #FlexTechnology", "transcript": "Let's start out by adding freaking e asking for that middle point at the opening of a kid's arms.", "brk": "Hook类型: 痛点直击\n结构: 痛点引入 → 创新技术展示 → 引导咨询\n为什么火: 精准切中现代人肌肉紧绷与渴望深度放松的痛点，展示独特柔性科技。\n改编角度: 结合P90/P90+ 太赫兹理疗仪，突出独特渗透力与细胞级放松体验，引导华人买家私信。", "my": "四十岁的离婚女人，每天一个人带着两个孩子，真的太难了。\n\n你是不是以为，想要找回当年的好状态和青春，必须去办几千块的美容卡，或者天天去健身房报到？\n\n其实真的不用那么麻烦，问题可能只是你用错了保养体质的方法。\n\n今天跟你分享三个普通人也能做到的日常调理方法。\n\n第一个方法，每天给自己留出固定时间好好放松。\n因为长期处在焦虑里，身体代谢会变慢。\n你可以花一点时间闭上眼睛调整呼吸，把紧绷的肩颈放松下来。\n\n第二个方法，开始注重细胞层面的日常保养。\n很多同龄姐妹只懂得在脸上涂涂抹抹，却忽略了身体内部的底子。\n你可以选择用 OlyLife 买细胞跑步机来辅助日常调理，让身体慢慢找回活力。\n花 $1471 入手 P90，或者花 $2207 入手 P90+，两款都免费送货上门。\n\n第三个方法，保持规律作息和简单拉伸。\n不用去外面跟别人挤，在家里铺个垫子就能做。\n每天坚持十几分钟，整个人会感觉轻松很多。\n\n以前我也是天天觉得累，带完孩子就想躺着，皮肤和状态也越来越差。\n用了 OlyLife 之后，每天花时间照顾自己，体质慢慢变好了，气色也跟着亮起来。\n\n如果你也想找回当年的状态，现在就通过私信联系我，了解适合你的 OlyLife 产品。", "tags": "OgawaMalaysia, OgawaCosmoX, IntelligentComfort, NewEraofComfort, precisiontechnology, YourFlexFactor, FlexTechnology", "bait": false, "type": "Video", "likes": 4, "comments": 3, "er": 0.06, "followers": 12475, "date": "2026-10-27", "url": "https://www.instagram.com/p/De-80c5kns4/", "video": true, "ratio": 0, "score": 0.1, "status": "未处理", "x": 0.7}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const SUPA = 'https://bmbubfigrbdssomyuyxw.supabase.co';
+const ANON = 'sb_publishable_tgyltES20saZ5pYCWabhIQ_uWq6_Y1E';
+document.getElementById('updated').textContent = '数据更新于 2026-11-13 11:39 (GMT+8)';
+
+const $ = id => document.getElementById(id);
+const I = n => '<svg class="ic"><use href="#i-' + n + '"/></svg>';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
+const getKey = () => ANON;  // anon key is baked in — safe, can only change status
+const firstLine = c => ((c || '').split('\n').map(l => l.trim()).filter(Boolean)[0] || '(无文案)');
+const byRec = {}; DATA.forEach(d => byRec[d.id] = d);
+
+function toast(msg, ok) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  t.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ---- mission card ----
+function renderMission() {
+  const role = localStorage.getItem('tm_role') || '';
+  const name = localStorage.getItem('tm_name') || '';
+  const pend = DATA.filter(d => d.status === '未处理').length;
+  const hot = DATA.filter(d => d.status === '未处理' && (d.x || 0) >= 2).length;
+  const queue = DATA.filter(d => d.status === '拍摄中').length;
+  const done = DATA.filter(d => d.status === '已处理').length;
+  const m = $('mission');
+  if (role === 'Marketer') {
+    m.innerHTML = '<div class="mt">' + I('flame') + esc(name) + ',任务:从待挑选里选出值得拍的</div>'
+      + '<div class="md">待挑选 <b>' + pend + '</b> 条(其中真爆款 ×2+ 有 <b>' + hot + '</b> 条)'
+      + ' · 从下面清单直接选,或去雷达细看</div>';
+  } else if (role === 'Content Creator') {
+    m.innerHTML = '<div class="mt">' + I('video') + esc(name) + ',任务:清空拍摄中队列</div>'
+      + '<div class="md">队列还有 <b>' + queue + '</b> 条待做 · 已完成共 <b>' + done + '</b> 条</div>';
+  } else {
+    m.innerHTML = '<div class="mt">' + I('flame') + '团队概览</div>'
+      + '<div class="md">待挑选 <b>' + pend + '</b> 条 · 拍摄中 <b>' + queue + '</b> 条 · 已完成 <b>' + done + '</b> 条</div>';
+  }
+}
+
+function orderSections() {
+  // Marketer sees picks first; Creator sees shooting queue first
+  if ((localStorage.getItem('tm_role') || '') === 'Marketer') {
+    $('secShoot').parentNode.insertBefore($('secPick'), $('secShoot'));
+  } else {
+    $('secPick').parentNode.insertBefore($('secShoot'), $('secPick'));
+  }
+}
+
+// ---- identity ----
+function meLabel() {
+  const n = localStorage.getItem('tm_name'), r = localStorage.getItem('tm_role');
+  $('meLabel').innerHTML = n ? '<b>' + esc(n) + '</b>&nbsp;· ' + esc(r || '') : '未登记';
+}
+function showOverlay() {
+  $('oName').value = localStorage.getItem('tm_name') || '';
+  $('oRole').value = localStorage.getItem('tm_role') || 'Marketer';
+  $('overlay').classList.add('show');
+}
+$('oSave').onclick = () => {
+  const n = $('oName').value.trim();
+  if (!n) { $('oName').focus(); return; }
+  localStorage.setItem('tm_name', n);
+  localStorage.setItem('tm_role', $('oRole').value);
+  $('overlay').classList.remove('show');
+  meLabel(); orderSections(); renderMission();
+  refreshStatuses();
+};
+$('meBtn').onclick = showOverlay;
+meLabel();
+if (!localStorage.getItem('tm_name')) showOverlay();
+
+// ---- tabs ----
+document.querySelectorAll('.ntab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.ntab').forEach(x => x.classList.toggle('on', x === t));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + t.dataset.p));
+  if (t.dataset.p === 'radar' && !$('radarWrap').querySelector('iframe')) {
+    const f = document.createElement('iframe'); f.src = 'index.html'; $('radarWrap').appendChild(f);
+  }
+});
+
+// ---- status write ----
+async function setStatus(d, val) {
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?post_id=eq.' + encodeURIComponent(d.id), {
+      method: 'PATCH',
+      headers: { 'apikey': ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ status: val })
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    d.status = val;
+    cacheStatus(d.id, val);
+    toast('✓ @' + d.competitor + ' → ' + val, true);
+  } catch (e) {
+    toast('失败: ' + e.message, false);
+  }
+  renderWork();
+}
+
+// ---- 今日工作 ----
+function pillBtn(cls, icon, label) {
+  return '<button class="pill ' + cls + '">' + I(icon) + label + '</button>';
+}
+
+function renderWork() {
+  const pend = DATA.filter(d => d.status === '未处理');
+  const shoot = DATA.filter(d => d.status === '拍摄中');
+  const done = DATA.filter(d => d.status === '已处理');
+  $('stPending').textContent = pend.length;
+  $('stShoot').textContent = shoot.length;
+  $('stDone').textContent = done.length;
+
+  // shooting queue
+  const sl = $('shootList'); sl.innerHTML = '';
+  if (!shoot.length) sl.innerHTML = '<div class="none">队列是空的 — Marketer 去爆款雷达挑几条拖进「拍摄中」</div>';
+  shoot.forEach(d => {
+    const r = document.createElement('div'); r.className = 'row';
+    r.innerHTML = '<a class="who2" href="https://www.instagram.com/' + d.competitor + '/" target="_blank">@' + esc(d.competitor) + '</a>'
+      + ((d.x || 0) >= 2 ? '<span class="xb">×' + d.x + '</span>' : '')
+      + '<span class="hookline">' + esc(firstLine(d.caption)) + '</span>'
+      + '<a class="pill" href="' + d.url + '" target="_blank">' + I('ext') + '原帖</a>'
+      + pillBtn('ok', 'check', '完成') + pillBtn('bad', 'x', '退回');
+    const btns = r.querySelectorAll('button');
+    btns[0].onclick = () => setStatus(d, '已处理');
+    btns[1].onclick = () => setStatus(d, '未处理');
+    sl.appendChild(r);
+  });
+
+  // picks
+  const picks = pend.filter(d => (d.x || 0) >= 2).sort((a, b) => (b.x || 0) - (a.x || 0)).slice(0, 8);
+  const pl = $('pickList'); pl.innerHTML = '';
+  if (!picks.length) pl.innerHTML = '<div class="none">暂时没有 ×2 以上的未处理爆款 — 等周一自动抓新数据</div>';
+  picks.forEach(d => {
+    const r = document.createElement('div'); r.className = 'row';
+    r.innerHTML = '<span class="xb">×' + d.x + '</span>'
+      + '<a class="who2" href="https://www.instagram.com/' + d.competitor + '/" target="_blank">@' + esc(d.competitor) + '</a>'
+      + '<span class="hookline">' + esc(firstLine(d.caption))
+      + '<small>🔥' + d.score + ' · ER ' + d.er + '% · 💬' + fmt(d.comments) + '</small></span>'
+      + '<a class="pill" href="' + d.url + '" target="_blank">' + I('ext') + '原帖</a>'
+      + pillBtn('ok', 'video', '选中拍摄') + pillBtn('bad', 'x', '跳过');
+    const btns = r.querySelectorAll('button');
+    btns[0].onclick = () => setStatus(d, '拍摄中');
+    btns[1].onclick = () => setStatus(d, '跳过');
+    pl.appendChild(r);
+  });
+  renderMission();
+}
+
+function applyStatusCache() {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    Object.keys(c).forEach(rid => { const d = byRec[rid]; if (d) d.status = c[rid]; });
+  } catch (e) {}
+}
+
+function cacheStatus(rid, val) {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    c[rid] = val; localStorage.setItem('st_cache', JSON.stringify(c));
+  } catch (e) {}
+}
+
+// ---- live statuses from Supabase ----
+async function refreshStatuses() {
+  applyStatusCache(); renderWork();  // last-known statuses first
+  if (Date.now() - (+localStorage.getItem('st_ts') || 0) < 600000) return;  // 10-min throttle
+  localStorage.setItem('st_ts', String(Date.now()));
+  const fresh = {};
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?select=post_id,status', { headers: { 'apikey': ANON } });
+    if (!r.ok) return;
+    (await r.json()).forEach(row => {
+      const d = byRec[row.post_id];
+      if (d) d.status = row.status || '未处理';
+      if (row.status && row.status !== '未处理') fresh[row.post_id] = row.status;
+    });
+    localStorage.setItem('st_cache', JSON.stringify(fresh));
+    renderWork();
+  } catch (e) {}
+}
+
+orderSections();
+renderMission();
+renderWork();
+refreshStatuses();
+</script>
+</body>
+</html>

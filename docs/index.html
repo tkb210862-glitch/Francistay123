@@ -1,25 +1,540 @@
 <!DOCTYPE html>
-<html lang="zh"><head>
+<html lang="zh">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="60">
-<title>爆款雷达 · 还在加载</title>
+<title>Olylife P90 & P90+ health device distributor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       background:#0a0d13;color:#e8e8ea;text-align:center;padding:24px;
-       font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
-  .spin{width:34px;height:34px;margin:0 auto 26px;border:3px solid #2a2f3a;
-        border-top-color:#ff785a;border-radius:50%;animation:s 1s linear infinite}
-  @keyframes s{to{transform:rotate(360deg)}}
-  h1{font-size:23px;margin:0 0 14px;font-weight:600}
-  p{margin:8px 0;color:#9a9aa2;font-size:15px;line-height:1.75}
-  .hint{margin-top:30px;font-size:13.5px;color:#6e6e78}
-  @media(prefers-reduced-motion:reduce){.spin{animation:none}}
-</style></head><body><div>
-  <div class="spin"></div>
-  <h1>你的页面还在加载中,请稍等</h1>
-  <p>第一次大约需要 20-60 分钟。</p>
-  <p>这一页会自己刷新,你可以先去忙别的。</p>
-  <p class="hint">等很久都没变?回到安装 SOP 第 7 步,<br>到仓库的 Actions 看 Sync Content 有没有跑完。</p>
-</div></body></html>
+  :root {
+    --bg: #0a0d13;
+    --card: #11151d;
+    --card-hi: #151a24;
+    --border: #1d2430;
+    --border-hi: #2c3546;
+    --text: #e8ecf3;
+    --muted: #8a94a6;
+    --faint: #5b6577;
+    --accent: #5ea1ff;
+    --green: #3fd68f;
+    --orange: #f0a33f;
+    --pink: #ff6b9d;
+    --red: #ff5c5c;
+    --fire1: #ff8a3d;
+    --fire2: #ff4d6d;
+    --font: 'Inter', -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --disp: 'Space Grotesk', 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-color: #232c3b var(--bg); }
+  body { background: var(--bg); color: var(--text); font-family: var(--font);
+    -webkit-font-smoothing: antialiased; }
+  ::selection { background: rgba(94,161,255,.3); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #232c3b; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2c3546; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+  .ic { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
+
+  header { position: sticky; top: 0; z-index: 50; background: rgba(10,13,19,.86);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border); padding: 13px 20px 12px; }
+  .hrow { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; max-width: 1440px; margin: 0 auto; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .mark { width: 31px; height: 31px; border-radius: 9px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--fire1), var(--fire2));
+    box-shadow: 0 4px 16px rgba(255,92,80,.35); }
+  .mark .ic { width: 17px; height: 17px; color: #fff; }
+  h1 { font-family: var(--disp); font-size: 16.5px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; line-height: 1.15; }
+  h1 small { display: block; color: var(--faint); font-family: var(--font); font-weight: 400;
+    font-size: 10.5px; letter-spacing: 0; }
+
+  .search { position: relative; }
+  .search > .ic { position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--faint); width: 13.5px; pointer-events: none; }
+  input#fSearch { background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 12px 8px 32px; font-size: 13px; font-family: var(--font);
+    width: 200px; transition: border-color .18s, background .18s; }
+  input#fSearch:hover { border-color: var(--border-hi); }
+  input#fSearch:focus { border-color: var(--accent); outline: none; }
+  input#fSearch::placeholder { color: var(--faint); }
+
+  select, .btn { background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 11px; font-size: 13px; font-family: var(--font);
+    cursor: pointer; transition: border-color .18s, background .18s, color .18s;
+    display: inline-flex; align-items: center; gap: 6px; }
+  select:hover, .btn:hover { border-color: var(--border-hi); background: var(--card-hi); }
+  .btn:active { transform: scale(.97); }
+  .btn.on { border-color: var(--accent); color: var(--accent); background: rgba(94,161,255,.08); }
+
+  .tabs { display: flex; gap: 7px; flex-wrap: wrap; max-width: 1440px; margin: 12px auto 0; }
+  .tab { display: inline-flex; align-items: center; gap: 7px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 999px; padding: 6.5px 14px;
+    font-size: 13px; color: var(--muted); cursor: pointer; user-select: none;
+    transition: border-color .18s, background .18s, color .18s, transform .18s; }
+  .tab:hover { border-color: var(--border-hi); color: var(--text); }
+  .tab .cnt { font-family: var(--disp); font-weight: 600; font-size: 11px;
+    background: rgba(255,255,255,.06); padding: 1.5px 7.5px; border-radius: 99px;
+    font-variant-numeric: tabular-nums; }
+  .tab.on { color: var(--text);
+    background: linear-gradient(135deg, rgba(255,138,61,.15), rgba(255,77,109,.15));
+    border-color: rgba(255,120,90,.45); }
+  .tab.on .cnt { background: rgba(255,120,90,.25); }
+  body.dragging .tab.droppable { border-style: dashed; border-color: var(--accent); }
+  .tab.over { background: rgba(94,161,255,.22); color: var(--text); transform: scale(1.07); }
+
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; max-width: 1440px; margin: 9px auto 0; align-items: center; }
+  .chips .lbl { font-size: 12px; color: var(--faint); margin-right: 2px; }
+  .chip2 { display: inline-flex; align-items: center; gap: 5.5px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4.5px 12px;
+    font-size: 12px; color: var(--muted); cursor: pointer; user-select: none;
+    transition: border-color .18s, color .18s, background .18s;
+    font-variant-numeric: tabular-nums; }
+  .chip2 .ic { width: 12.5px; height: 12.5px; }
+  .chip2:hover { border-color: var(--border-hi); color: var(--text); }
+  .chip2.on { border-color: rgba(240,163,63,.6); color: var(--orange); background: rgba(240,163,63,.08); }
+
+  main { max-width: 1440px; margin: 22px auto; padding: 0 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(305px, 1fr)); gap: 18px; }
+
+  .card { position: relative; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .22s cubic-bezier(.2,.7,.3,1), border-color .22s, box-shadow .22s;
+    animation: fadeUp .45s cubic-bezier(.2,.7,.3,1) both; }
+  .card:hover { transform: translateY(-3px); border-color: var(--border-hi);
+    box-shadow: 0 12px 32px rgba(0,0,0,.45); }
+  .card.outlier::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--fire1), var(--fire2)); z-index: 2; }
+  .card[draggable] { cursor: grab; }
+  .card.lifting { opacity: .45; }
+  .card.saved { border-color: var(--green); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .embed { position: relative; width: 100%; aspect-ratio: 4/5; background: #080b10; }
+  .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .embed .ph { position: absolute; inset: 0; display: grid; place-items: center;
+    background: linear-gradient(110deg, #0b0e15 8%, #121826 18%, #0b0e15 33%);
+    background-size: 200% 100%; animation: shimmer 1.5s linear infinite; }
+  .embed .ph .ic { width: 30px; height: 30px; color: #2a3342; stroke-width: 1.6; }
+  @keyframes shimmer { to { background-position-x: -200%; } }
+
+  .meta { padding: 13px 15px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .row1 { display: flex; align-items: center; gap: 7px; font-size: 13px; flex-wrap: wrap; }
+  .handle { color: #3a4456; cursor: grab; display: inline-flex; }
+  .handle .ic { width: 13px; height: 13px; }
+  .who { font-weight: 600; color: var(--accent); text-decoration: none; }
+  .who:hover { text-decoration: underline; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 500;
+    padding: 2.5px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+  .badge .ic { width: 10.5px; height: 10.5px; }
+  .badge.bnew { color: var(--pink); border-color: rgba(255,107,157,.45); background: rgba(255,107,157,.07); }
+  .badge.bhorse { color: var(--orange); border-color: rgba(240,163,63,.45); background: rgba(240,163,63,.07); }
+  .badge.bbait { color: var(--accent); border-color: rgba(94,161,255,.4); background: rgba(94,161,255,.07); }
+  .date { margin-left: auto; color: var(--faint); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+  .nums { display: flex; gap: 6px; flex-wrap: wrap; }
+  .num { display: inline-flex; align-items: center; gap: 5px; background: #0c0f16;
+    border: 1px solid var(--border); border-radius: 9px; padding: 5px 9px;
+    font-size: 11px; color: var(--muted); }
+  .num .ic { width: 11.5px; height: 11.5px; }
+  .num b { font-family: var(--disp); color: var(--text); font-size: 12.5px; font-weight: 600;
+    font-variant-numeric: tabular-nums; }
+  .num.hot { border-color: rgba(255,122,77,.35); }
+  .num.hot .ic, .num.hot b { color: #ff7a4d; }
+  .num.x { border-color: rgba(240,163,63,.35); }
+  .num.x .ic, .num.x b { color: var(--orange); }
+  .num.er .ic, .num.er b { color: var(--green); }
+
+  .cap { color: var(--muted); font-size: 12.5px; line-height: 1.55; display: -webkit-box;
+    -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  .cap.open { -webkit-line-clamp: unset; }
+  .cap b { color: var(--text); font-weight: 600; }
+  .ai { border-left: 2px solid var(--orange); background: rgba(240,163,63,.06);
+    padding: 8px 11px; border-radius: 0 10px 10px 0; font-size: 12px; line-height: 1.65;
+    color: var(--muted); }
+  .ai b { color: var(--orange); font-weight: 600; }
+  .mine { border-left: 2px solid var(--green); background: rgba(63,214,143,.06);
+    padding: 8px 11px; border-radius: 0 10px 10px 0; font-size: 12px; line-height: 1.65;
+    color: var(--muted); cursor: pointer; display: -webkit-box; -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
+  .mine.open { -webkit-line-clamp: unset; }
+  .mine b { color: var(--green); font-weight: 600; }
+
+  .srow { display: flex; align-items: center; gap: 7px; }
+  .srow label { font-size: 12px; color: var(--faint); }
+  .status { flex: 1; padding: 6px 9px; font-size: 12.5px; }
+  .status.s未处理 { color: var(--muted); }
+  .status.s拍摄中 { color: var(--orange); border-color: rgba(240,163,63,.5); }
+  .status.s已处理 { color: var(--green); border-color: rgba(63,214,143,.5); }
+  .status.s跳过 { color: var(--red); border-color: rgba(255,92,92,.5); }
+  .abtn { display: inline-flex; align-items: center; gap: 5px; background: #0c0f16;
+    color: var(--muted); border: 1px solid var(--border); border-radius: 9px;
+    padding: 6px 10px; font-size: 11.5px; font-family: var(--font); cursor: pointer;
+    text-decoration: none; transition: color .18s, border-color .18s, transform .1s; }
+  .abtn .ic { width: 12px; height: 12px; }
+  .abtn:hover { color: var(--accent); border-color: rgba(94,161,255,.5); }
+  .abtn:active { transform: scale(.95); }
+
+  .more { text-align: center; margin: 28px 0 44px; }
+  .more button { background: var(--card); color: var(--accent); border: 1px solid var(--border);
+    border-radius: 12px; padding: 11px 30px; font-size: 14px; font-family: var(--font);
+    cursor: pointer; transition: border-color .18s, background .18s; }
+  .more button:hover { border-color: var(--border-hi); background: var(--card-hi); }
+
+  .empty { color: var(--faint); text-align: center; padding: 70px 0; display: flex;
+    flex-direction: column; align-items: center; gap: 12px; font-size: 14px; }
+  .empty .ic { width: 34px; height: 34px; stroke-width: 1.5; color: #2c3546; }
+
+  footer { color: var(--faint); font-size: 11px; text-align: center; padding: 22px; }
+
+  #toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(8px);
+    background: var(--card-hi); border: 1px solid var(--border-hi); border-radius: 11px;
+    padding: 11px 20px; font-size: 13px; display: none; z-index: 99; opacity: 0;
+    box-shadow: 0 12px 32px rgba(0,0,0,.5); transition: opacity .2s, transform .2s; }
+  #toast.show { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.5l7.1-.6z"/></symbol>
+  <symbol id="i-magnet" viewBox="0 0 24 24"><path d="m6 15-4-4 6.75-6.77a7.79 7.79 0 0 1 11 11L13 22l-4-4 6.39-6.36a2.14 2.14 0 0 0-3-3L6 15"/><path d="m5 8 4 4"/><path d="m12 15 4 4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m10 8 6 4-6 4Z"/><rect x="2" y="4" width="20" height="16" rx="3"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+  <symbol id="i-pct" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></symbol>
+</svg>
+<header>
+  <div class="hrow">
+    <div class="brand">
+      <div class="mark"><svg class="ic"><use href="#i-flame"/></svg></div>
+      <h1>Olylife P90 & P90+ health device distributor<small id="updated"></small></h1>
+    </div>
+    <div class="search"><svg class="ic"><use href="#i-search"/></svg>
+      <input id="fSearch" placeholder="搜文案 / hashtag / 账号"></div>
+    <select id="fTracker"><option value="">全部 Tracker</option></select>
+    <select id="fComp"><option value="">全部 Competitor</option></select>
+    <select id="fSort">
+      <option value="x">按 爆款倍数 (vs 自家平均)</option>
+      <option value="score">按 Viral Score</option>
+      <option value="er">按 Engagement Rate</option>
+      <option value="comments">按 Comments</option>
+      <option value="likes">按 Likes</option>
+      <option value="date">按 最新日期</option>
+    </select>
+    <button class="btn" id="fVideo"><svg class="ic"><use href="#i-video"/></svg>只看视频</button>
+
+    <a class="btn" href="team.html" target="_top" title="工作台"><svg class="ic"><use href="#i-users"/></svg>工作台</a>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="chips" id="presets"></div>
+  <div class="chips" id="trends"></div>
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><svg class="ic"><use href="#i-search"/></svg>没有符合条件的帖子</div>
+  <div class="more" id="moreWrap" style="display:none"><button id="moreBtn">载入更多</button></div>
+</main>
+<footer>数据来源 Supabase · 每周自动更新 · 状态更改即时同步全团队 · 视频由 Instagram 官方 embed 播放</footer>
+<div id="toast"></div>
+<script id="data" type="application/json">[{"id": "De_6p2pAkph", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "😮‍💨 想送礼，又怕送得太普通？\n 看起来像棒棒糖，其实是按摩仪 🍭 uLolly 小巧可爱，随手就能放松一下，价钱也很友善，送朋友、送同事都显得有心。\n 提醒一下：不能吃，也不包括老板亲自帮你按 😆\n\n 立即选购 👉🏻 Link in bio\n #OSIMMalaysia #uLolly #按摩仪 #送礼推荐 #小巧好物 #OSIM #OnlineExclusive", "transcript": "欸 賴咪 先買棒棒糖啦棒棒糖可以幫你按摩的可以按摩什麼很好用的 真的 你信我可以做什麼不可以啦這個是按摩依賴的這樣有沒有買一送一有喔 買兩個我們就有送一個盲盒可以拿來按摩的而且價錢也不貴買來送人也剛剛好喔", "brk": "Hook类型: 反常识\n结构: 视觉误导(棒棒糖) → 功能反转(按摩仪) → 促销转化(送礼/买二送一)\n为什么火: 用“像棒棒糖的按摩仪”制造视觉反差，精准切中送礼人群的新奇与性价比需求。\n改编角度: 突出OLylife P90/P90+的太赫兹理疗黑科技与便携外观反差，主打送长辈或自用的健康新选择。", "my": "四十岁带两孩子的离婚女人，每天一个人撑起家里的一切，是不是觉得自己快要散架了？\n\n很多人以为，想要找回当年的精气神和好体质，必须花大把时间去健身房，或者买一堆昂贵的保健品。\n\n其实根本不用那么麻烦，真正管用的是从每天的细胞保养开始。\n\n第一个方法，每天花一点时间使用 OlyLife P90。这个健康仪操作很简单，放在家里随时可以用，主要帮身体做好基础保养，长期用下来整个人精神好很多，价格是 1471 美元，免费送货上门。\n\n第二个方法，如果想要更好的体质和青春状态，可以选择升级版的 OlyLife P90+。两款机器都不用出门买，直接送到家门口，价格是 2207 美元，很适合照顾好自己。\n\n第三个方法，把使用健康仪变成每天的日常习惯。不需要复杂的步骤，只要坚持放松和保养，身体的疲惫感会慢慢减轻，整个人看起来更有活力。\n\n以前每天照顾孩子和生活，累了只能硬扛，连照镜子都觉得气色不好。\n\n现在每天用 OlyLife 帮自己做保养，体质慢慢调理回来，找回了属于自己的状态和青春。\n\n如果你也想对自己好一点，点击主页链接了解详情，我们把 OlyLife 直接免费送货上门。", "tags": "OSIMMalaysia, uLolly, 按摩仪, 送礼推荐, 小巧好物, OSIM, OnlineExclusive", "bait": false, "type": "Video", "likes": 68, "comments": 0, "er": 0.7, "followers": 9706, "date": "2026-10-27", "url": "https://www.instagram.com/p/De_6p2pAkph/", "video": true, "ratio": 0, "score": 0.7, "status": "未处理", "x": 1.3}, {"id": "DfD_dgFgczR", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "🎀 Massage time just got a whole lot cuter.\n\nMeet the OSIM uCozy Heart 2 Sanrio characters Special Collection, the heart-shaped massage cushion you'll actually want to leave out on display ✨\n\n💗 Choose your favourite: Hello Kitty, Pompompurin or Cinnamoroll\n🛋️ A versatile massage cushion from the OSIM Feel Good Series\n🎁 A gift-worthy pick for every Sanrio fan\n🏷️ Special pre-order price for early birds\n\n👉 Pre-order now at https://www.osim.com.my/product/category/Upper-Body-Massagers/uCozy-Heart-2-Versatile-Body-Massager\n\n*T&C apply.\n\n#HelloKitty #Pompompurin #Cinnamoroll #Sanrio #OSIM #uCozyHeart2", "transcript": "", "brk": "Hook类型: 联名萌物吸引\n结构: 萌系外观展示 → 多角色选择 → 预购引导\n为什么火: 经典IP三丽鸥联名戳中粉丝少女心与送礼需求\n改编角度: 突出OLylife P90+高端科技感与送长辈孝心礼物的温情定位", "my": "四十四岁还要照顾两个孩子，每天照镜子的时候，你是不是也觉得自己真的累垮了。\n\n你可能觉得，女人到了这个年纪，气色变差和体力下滑是正常的，只能靠每天喝很多咖啡来硬撑。\n\n其实真的不是这样，这只是你的身体和细胞在发出求救信号，需要深层的能量补充。\n\n第一个方法是每天花十五分钟使用OlyLife P90，放在客厅一边看电视一边用，促进血液循环，让整个人放松下来。\n\n第二个方法是调整作息配合P90+来保养体质，重点是改善睡眠质量，每天早晚各用一次，把底子慢慢调理好。\n\n第三个方法是坚持每天补充水分，搭配仪器的使用帮助新陈代谢，让身体保持活力，找回以前的状态。\n\n以前总觉得自己年纪大了，每天带着两个孩子累得喘不过气，连照镜子的心情都没有。\n\n用了P90+以后，睡眠变好了，气色也慢慢红润起来，每天照顾家里更有精神，找回了属于自己的青春状态。\n\n如果你也想开始好好照顾自己，现在就可以通过主页链接联系我了解P90和P90+，免费送货上门，开启你的保养计划。", "tags": "HelloKitty, Pompompurin, Cinnamoroll, Sanrio, OSIM, uCozyHeart2", "bait": false, "type": "Image", "likes": 56, "comments": 1, "er": 0.59, "followers": 9706, "date": "2026-10-29", "url": "https://www.instagram.com/p/DfD_dgFgczR/", "video": false, "ratio": 0, "score": 0.61, "status": "未处理", "x": 1.1}, {"id": "DfZdUYyjKUv", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "🎀 Calling all Sanrio fans! Something CUTE has arrived at 1 Utama! 💗\n\nDiscover the NEW OSIM uCozy Heart 2 Sanrio Special Collection featuring Hello Kitty, Pompompurin & Cinnamoroll! 🥹💕\n\nDrop by our roadshow to explore the collection, snap some cute photos and enjoy complimentary Sanrio gift-wrapping services on-site with every purchase! 🎁✨\n\n📍 1 Utama, New Wing Concourse\n📅 3–9 November 2026\n🕙 10AM – 10PM\n\nGather your Sanrio besties and come visit us! See you there! 🎀❤️\n\n#OSIM #OSIMxSanrio #uCozyHeart2 #Sanrio #HelloKitty #Pompompurin #Cinnamoroll #1Utama #OSIMRoadshow", "transcript": "", "brk": "Hook类型: 痛点直击\n结构: 联名吸睛 → 现场体验 → 促销引导\n为什么火: 借势超级IP热度，精准收割粉丝注意力。\n改编角度: 结合OLylife P90推出线下体验送专属礼品活动。", "my": "四十岁还要一个人照顾两个孩子，每天照镜子的时候，看着脸上的疲惫，心里真的不是滋味。\n\n你是不是以为，想找回以前的青春和好体质，只能去美容院花大钱，或者天天吃一堆瓶瓶罐罐？\n\n其实根本不用那么麻烦，问题在于你没有找到真正适合自己的居家保养方式。\n\n第一点，每天给自己留出一点时间。坐在家里用OlyLife细胞跑步机，让身体放松下来，找回当年的状态。\n\n第二点，坚持日常的体质保养。不需要复杂的步骤，花点心思照顾自己，把状态慢慢调理回来。\n\n第三点，投资真正适合自己的健康设备。比如入手一台P90要1471，或者选择P90+是2207，两款都免费送货上门，让保养变得很简单。\n\n以前每天围着孩子转，累到没有自己的时间，整个人显得很没有精神。\n\n现在用对了方法在家做保养，不仅体质变好了，连气色和状态也慢慢回到了从前。\n\n如果你也想找回属于自己的青春和好体质，现在就可以通过主页私信我了解更多详情。", "tags": "OSIM, OSIMxSanrio, uCozyHeart2, Sanrio, HelloKitty, Pompompurin, Cinnamoroll, 1Utama, OSIMRoadshow", "bait": false, "type": "Carousel", "likes": 45, "comments": 0, "er": 0.46, "followers": 9706, "date": "2026-11-06", "url": "https://www.instagram.com/p/DfZdUYyjKUv/", "video": false, "ratio": 0, "score": 0.46, "status": "未处理", "x": 0.9}, {"id": "De_RU8lDkJN", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "osim.malaysia", "caption": "💗💛💙 Your favourite massage cushion is getting a very sweet makeover.\n\nSomething special is on its way to the OSIM Feel Good Series, and we can't keep it under wraps for much longer ✨\n\n🎀 A cuter take on the uCozy Heart 2 you already love\n☁️ Three dreamy colourways, one for every mood\n🛋️ Made to look as good on your sofa as it feels\n🔍 The clues are hiding in the colours\n\n👇 Drop your guess in the comments. The big reveal is coming soon!\n\n#OSIM #uCozyHeart2 #Sanrio #ComingSoon", "transcript": "", "brk": "Hook类型: 悬念\n结构: 新品预告 → 核心亮点展示 → 评论区互动\n为什么火: 经典IP联名制造期待感，颜值高且戳中少女心\n改编角度: 预告OLylife P90/P90+的限量新配色或升级版配件，借势节日营销吸引粉丝互动", "my": "四十岁还要照顾两个孩子，每天回到家整个人累得像散架一样。\n\n你是不是以为，想找回以前那种轻盈的状态，就得天天花大把时间去外面做全身按摩。\n\n其实真的不用那么麻烦，关键是要懂得在家里照顾好自己的身体。\n\n第一，每天早晚留出一点时间给自己，坐在沙发上好好放松。让身体静下来，把一天的疲惫先放下。这样做能让紧绷的肌肉慢慢放松，找回一点属于自己的空间。\n\n第二，懂得用适合的方法来保养体质。很多四十岁的女人都在用 OlyLife P90 来照顾自己，价格是 1471 美元。把它放在家里，每天用一段时间，帮身体打好基础。\n\n第三，如果想更全面地照顾状态，也可以选择 P90+，价格是 2207 美元。这两款都是直接免费送货上门，不用自己搬。坚持用下来，整个人会感觉轻松很多，气色也慢慢变好。\n\n以前一个人带着两个孩子，每天忙里忙外，连照镜子都觉得累。\n\n用了 P90+ 之后，每天花点时间在自己身上，身体状态变好了，整个人也更有精神去面对生活。\n\n如果你也想找回以前的青春状态，现在就可以通过私信联系我了解详情。", "tags": "OSIM, uCozyHeart2, Sanrio, ComingSoon", "bait": false, "type": "Image", "likes": 22, "comments": 0, "er": 0.23, "followers": 9706, "date": "2026-10-27", "url": "https://www.instagram.com/p/De_RU8lDkJN/", "video": false, "ratio": 0, "score": 0.23, "status": "未处理", "x": 0.4}, {"id": "DeyscwMD-Gz", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "ogawamalaysia", "caption": "✨ 𝗫𝗣𝗘𝗥𝗜𝗘𝗡𝗖𝗘 & 𝗪𝗜𝗡 𝗪𝗜𝗧𝗛 𝗢𝗚𝗔𝗪𝗔! \n\nReady to relax and enjoy exciting rewards? \nExperience the new OGAWA COSMO X, to redeem exclusive gifts and stand a chance to win a massage chair!\n\n📅 Now until 31 October 2026\n💬 Message us to find out how you can participate!\n\n*𝘛𝘦𝘳𝘮𝘴 & 𝘊𝘰𝘯𝘥𝘪𝘵𝘪𝘰𝘯𝘴 𝘢𝘱𝘱𝘭𝘺. 𝘈𝘷𝘢𝘪𝘭𝘢𝘣𝘭𝘦 𝘪𝘯 𝘞𝘦𝘴𝘵 𝘔𝘢𝘭𝘢𝘺𝘴𝘪𝘢 𝘰𝘯𝘭𝘺.\n\n#OgawaMalaysia #OgawaXperienceAndWin #OgawaCosmoX", "transcript": "Come experience Cosmo X and discover our Experience and Win campaign. Relax and experience Cosmo X for yourself. Scan the QR code and register your details to join the campaign. Share a comment and photo for a foot mask. Plus a video for an extra comfy eye mask. Record a testimonial video for a chance to win more prizes. Stand a chance to win a massage chair. Visit Ogawa today. Ogawa.", "brk": "Hook类型: 抽奖福利诱导\n结构: 线下体验 → 扫码参与 → 阶梯式发奖\n为什么火: 用免费按摩椅等高价值奖品降低线下门店引流门槛\n改编角度: 邀请华人粉丝到店体验P90送小礼品并参与抽大奖引流", "my": "四十一岁一个人带两个孩子，你是不是每天累到连照镜子的心思都没有？\n\n很多人以为，女人到了这个年纪，气色变差、体力变差是正常的，只能靠吃各种昂贵的保健品来硬扛。\n\n其实不是这样的，真正的原因是你每天都在透支身体的元气，却没有给细胞补充真正需要的能量。\n\n第一步，每天抽出一短段安静的时间，让自己完全放松下来。坐在家里什么都不要想，闭上眼睛调整呼吸。这样能让紧绷了一整天的神经慢下来，身体的负担也会减轻很多。\n\n第二步，使用 OlyLife P90 来帮助身体做好日常保养。把脚放在上面，让它协助你调理体质。很多像你一样的单亲妈妈都在用它照顾自己的状态，每天花一点时间，帮自己把底子慢慢养回来。\n\n第三步，搭配更全面的 OlyLife P90+ 来全方位照顾自己。它的价格是 2207 美元，而基础款 P90 的价格是 1471 美元。这两款产品都提供免费送货上门的服务，不需要你自己出门搬运，直接送到家里。\n\n以前你可能总是把最好的留给孩子，自己累垮了也不知道怎么心疼自己。\n\n现在你可以每天花一点时间留给自己，用 OlyLife 慢慢找回原本属于你的好状态和好气色。\n\n如果你也想在照顾好孩子的同时，好好爱护自己的身体，现在就通过私信联络我了解详情吧。", "tags": "OgawaMalaysia, OgawaXperienceAndWin, OgawaCosmoX", "bait": false, "type": "Video", "likes": 15, "comments": 2, "er": 0.14, "followers": 12475, "date": "2026-10-22", "url": "https://www.instagram.com/p/DeyscwMD-Gz/", "video": true, "ratio": 0, "score": 0.17, "status": "未处理", "x": 1.2}, {"id": "DegDM5qjIId", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "ogawamalaysia", "caption": "✨ 𝗫𝗣𝗘𝗥𝗜𝗘𝗡𝗖𝗘 & 𝗪𝗜𝗡 𝗪𝗜𝗧𝗛 𝗢𝗚𝗔𝗪𝗔! ✨\nYour next moment of relaxation could bring exciting rewards! \nExperience COSMO X, redeem exclusive gifts and 𝘀𝘁𝗮𝗻𝗱 𝗮 𝗰𝗵𝗮𝗻𝗰𝗲 𝘁𝗼 𝘄𝗶𝗻 a massage chair 𝘄𝗼𝗿𝘁𝗵 𝗥𝗠𝟮𝟬,𝟬𝟬𝟬 and above.\n\n📅 Now until 31 October 2026\n💬 Message us to find out how you can participate!\n\n*𝘛𝘦𝘳𝘮𝘴 & 𝘊𝘰𝘯𝘥𝘪𝘵𝘪𝘰𝘯𝘴 𝘢𝘱𝘱𝘭𝘺. 𝘈𝘷𝘢𝘪𝘭𝘢𝘣𝘭𝘦 𝘪𝘯 𝘞𝘦𝘴𝘵 𝘔𝘢𝘭𝘢𝘺𝘴𝘪𝘢 𝘰𝘯𝘭𝘺.\n\n#OgawaMalaysia #OgawaXperienceAndWin #OgawaCosmoX", "transcript": "", "brk": "Hook类型: 福利诱惑\n结构: 免费体验 → 独家礼品 → 抽奖赢万元大奖\n为什么火: 高价值奖品刺激，零门槛互动提升参与率。\n改编角度: 针对OLylife P90，推出免费体验送健康礼品并抽豪华大奖。", "my": "四十岁一个人带着一对子女，每天最怕的不是累，而是照镜子的时候，发现自己老的太快。\n\n很多人以为，保养体质和维持青春，只能靠去美容院花大钱，或者天天吃一大堆瓶瓶罐罐。\n\n其实不是，真正懂照顾自己的女人，早就开始用更简单的方式把状态找回来。\n\n第一步，每天给自己留出一点时间。\n\n坐在家里，把手机放下，闭上眼睛休息一会儿。\n\n这不仅是给自己喘口气，更是让身体彻底放松下来。\n\n第二步，用对方法帮身体做深层的调理。\n\n很多四十岁的单亲妈妈每天忙里忙外，根本没时间出门做护理。\n\n这时候家里有一台 OlyLife P90，价格是 1471 美元，或者升级版的 P90+，价格是 2207 美元。\n\n这两款都直接免费送货上门，不需要你出门搬，放在家里自己就能用。\n\n它帮你照顾好体质，把气色和状态慢慢养回来。\n\n第三步，保持好心情，照顾好自己的每一天。\n\n以前觉得生活太累，每天照顾孩子连照镜子的心思都没有，整个人看起来比实际年龄老了许多。\n\n现在懂得每天花一点时间好好照顾自己，整个人精神变好了，带孩子也更有活力。\n\n如果你也想在四十岁的时候，依然把体质和青春保养得好好的。\n\n现在就发信息联系我们，了解更多关于 P90 和 P90+ 的详情。", "tags": "OgawaMalaysia, OgawaXperienceAndWin, OgawaCosmoX", "bait": false, "type": "Image", "likes": 18, "comments": 0, "er": 0.14, "followers": 12475, "date": "2026-10-15", "url": "https://www.instagram.com/p/DegDM5qjIId/", "video": false, "ratio": 0, "score": 0.14, "status": "未处理", "x": 1.0}, {"id": "De-80c5kns4", "tracker": "Olylife P90 & P90+ health device distributor 竞对", "competitor": "ogawamalaysia", "caption": "✨𝗬𝗢𝗨𝗥 𝗙𝗟𝗘𝗫 𝗙𝗔𝗖𝗧𝗢𝗥\n\nMeet 𝗢𝗚𝗔𝗪𝗔 𝗖𝗢𝗦𝗠𝗢 𝗫, featuring innovative 𝟱𝟰𝟬° 𝗙𝗹𝗲𝘅 𝗧𝗲𝗰𝗵𝗻𝗼𝗹𝗼𝗴𝘆 that takes your massage experience beyond the ordinary.\nDiscover a new way to stretch, unwind and experience personalised comfort.\n\n💬 Message us to learn more about 𝗢𝗚𝗔𝗪𝗔 𝗖𝗢𝗦𝗠𝗢 𝗫.\n\n#OgawaMalaysia #OgawaCosmoX #IntelligentComfort #NewEraofComfort #precisiontechnology #YourFlexFactor #FlexTechnology", "transcript": "Let's start out by adding freaking e asking for that middle point at the opening of a kid's arms.", "brk": "Hook类型: 痛点直击\n结构: 痛点引入 → 创新技术展示 → 引导咨询\n为什么火: 精准切中现代人肌肉紧绷与渴望深度放松的痛点，展示独特柔性科技。\n改编角度: 结合P90/P90+ 太赫兹理疗仪，突出独特渗透力与细胞级放松体验，引导华人买家私信。", "my": "四十岁的离婚女人，每天一个人带着两个孩子，真的太难了。\n\n你是不是以为，想要找回当年的好状态和青春，必须去办几千块的美容卡，或者天天去健身房报到？\n\n其实真的不用那么麻烦，问题可能只是你用错了保养体质的方法。\n\n今天跟你分享三个普通人也能做到的日常调理方法。\n\n第一个方法，每天给自己留出固定时间好好放松。\n因为长期处在焦虑里，身体代谢会变慢。\n你可以花一点时间闭上眼睛调整呼吸，把紧绷的肩颈放松下来。\n\n第二个方法，开始注重细胞层面的日常保养。\n很多同龄姐妹只懂得在脸上涂涂抹抹，却忽略了身体内部的底子。\n你可以选择用 OlyLife 买细胞跑步机来辅助日常调理，让身体慢慢找回活力。\n花 $1471 入手 P90，或者花 $2207 入手 P90+，两款都免费送货上门。\n\n第三个方法，保持规律作息和简单拉伸。\n不用去外面跟别人挤，在家里铺个垫子就能做。\n每天坚持十几分钟，整个人会感觉轻松很多。\n\n以前我也是天天觉得累，带完孩子就想躺着，皮肤和状态也越来越差。\n用了 OlyLife 之后，每天花时间照顾自己，体质慢慢变好了，气色也跟着亮起来。\n\n如果你也想找回当年的状态，现在就通过私信联系我，了解适合你的 OlyLife 产品。", "tags": "OgawaMalaysia, OgawaCosmoX, IntelligentComfort, NewEraofComfort, precisiontechnology, YourFlexFactor, FlexTechnology", "bait": false, "type": "Video", "likes": 4, "comments": 3, "er": 0.06, "followers": 12475, "date": "2026-10-27", "url": "https://www.instagram.com/p/De-80c5kns4/", "video": true, "ratio": 0, "score": 0.1, "status": "未处理", "x": 0.7}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const SUPA = 'https://bmbubfigrbdssomyuyxw.supabase.co';
+const ANON = 'sb_publishable_tgyltES20saZ5pYCWabhIQ_uWq6_Y1E';
+const STATUSES = ["未处理", "拍摄中", "已处理", "跳过"];
+document.getElementById('updated').textContent = '更新于 2026-11-13 11:39 (GMT+8)';
+const PAGE = 48;
+let shown = PAGE;
+let videoOnly = false;
+let curTab = '全部';
+
+const $ = id => document.getElementById(id);
+const fmt = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
+const getKey = () => ANON;  // anon key is baked in — safe, can only change status
+const I = n => '<svg class="ic"><use href="#i-' + n + '"/></svg>';
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const byRec = {}; DATA.forEach(d => byRec[d.id] = d);
+const TRENDS = [];
+DATA.forEach(d => {
+  d.days = d.date ? Math.max(0, Math.floor((Date.now() - new Date(d.date + 'T00:00:00')) / 864e5)) : null;
+  d.horse = d.followers > 0 && d.followers < 50000 && ((d.x || 0) >= 2 || d.score >= 10);
+});
+const PRESETS = [
+  { k: 'px', icon: 'trend', label: '真爆款 ×2+', f: d => (d.x || 0) >= 2 },
+  { k: 'pn', icon: 'star', label: '近7天', f: d => d.days !== null && d.days <= 7 },
+  { k: 'ph', icon: 'zap', label: '黑马', f: d => d.horse },
+  { k: 'pb', icon: 'magnet', label: '引流帖', f: d => d.bait },
+];
+const presetOn = {};
+
+function toast(msg, ok) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  t.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// filters
+const comps = [...new Set(DATA.map(d => d.competitor))].sort();
+comps.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = '@'+c; $('fComp').appendChild(o); });
+[...new Set(DATA.map(d => d.tracker))].forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; $('fTracker').appendChild(o); });
+
+function matchQ(d) {
+  const q = ($('fSearch').value || '').trim().toLowerCase();
+  return !q || (d.caption + ' ' + (d.tags || '') + ' ' + (d.transcript || '') + ' ' + (d.brk || '') + ' ' + d.competitor).toLowerCase().includes(q);
+}
+
+function basePool() {
+  const t = $('fTracker').value, c = $('fComp').value;
+  return DATA.filter(d => (!t || d.tracker === t) && (!c || d.competitor === c) && (!videoOnly || d.video)
+    && matchQ(d) && PRESETS.every(p => !presetOn[p.k] || p.f(d)));
+}
+
+function filtered() {
+  const s = $('fSort').value;
+  let arr = basePool().filter(d => curTab === '全部' || d.status === curTab);
+  const key = { score:'score', er:'er', comments:'comments', likes:'likes', x:'x' }[s];
+  if (s === 'date') arr.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+  else arr.sort((a,b) => (b[key]||0) - (a[key]||0));
+  return arr;
+}
+
+let dragRec = null;
+
+function renderTabs() {
+  const pool = basePool();
+  const counts = { '全部': pool.length };
+  STATUSES.forEach(s => counts[s] = pool.filter(d => d.status === s).length);
+  $('tabs').innerHTML = '';
+  ['全部', ...STATUSES].forEach(name => {
+    const el = document.createElement('div');
+    el.className = 'tab' + (curTab === name ? ' on' : '') + (name !== '全部' ? ' droppable' : '');
+    el.innerHTML = esc(name) + ' <span class="cnt">' + counts[name] + '</span>';
+    el.onclick = () => { curTab = name; shown = PAGE; render(); };
+    if (name !== '全部') {
+      el.ondragover = e => { if (dragRec) { e.preventDefault(); el.classList.add('over'); } };
+      el.ondragleave = () => el.classList.remove('over');
+      el.ondrop = e => {
+        e.preventDefault(); el.classList.remove('over');
+        const d = byRec[dragRec]; dragRec = null;
+        if (d && d.status !== name) setStatus(d, name);
+      };
+    }
+    $('tabs').appendChild(el);
+  });
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target, pid = el.dataset.pid;
+      if (!el.querySelector('iframe')) {
+        const f = document.createElement('iframe');
+        f.src = 'https://www.instagram.com/p/' + pid + '/embed/';
+        f.loading = 'lazy'; f.allow = 'autoplay; encrypted-media';
+        el.appendChild(f);
+      }
+      io.unobserve(el);
+    }
+  });
+}, { rootMargin: '400px' });
+
+async function setStatus(d, val) {
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?post_id=eq.' + encodeURIComponent(d.id), {
+      method: 'PATCH',
+      headers: { 'apikey': ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ status: val })
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    d.status = val;
+    cacheStatus(d.id, val);
+    toast('✓ @' + d.competitor + ' 已移到「' + val + '」', true);
+  } catch (e) {
+    toast('更新失败: ' + e.message + (String(e.message).includes('401') || String(e.message).includes('403') ? ' — 密钥无效?' : ''), false);
+  }
+  render();
+}
+
+function card(d, idx) {
+  const el = document.createElement('div');
+  el.className = 'card' + ((d.x || 0) >= 2 ? ' outlier' : '');
+  el.style.animationDelay = Math.min(idx % PAGE, 14) * 30 + 'ms';
+  el.draggable = true;
+  el.ondragstart = e => {
+    dragRec = d.id;
+    e.dataTransfer.effectAllowed = 'move';
+    el.classList.add('lifting');
+    document.body.classList.add('dragging');
+  };
+  el.ondragend = () => {
+    el.classList.remove('lifting');
+    document.body.classList.remove('dragging');
+    dragRec = null;
+  };
+  const typeIcon = d.video ? 'video' : (d.type === 'Carousel' ? 'layers' : 'image');
+  const days = d.days, horse = d.horse;
+  const ago = days === null ? '' : (days === 0 ? '今天' : days + '天前');
+  const lines = (d.caption || '').split('\n').map(l => l.trim()).filter(Boolean);
+  const hook = lines[0] || '';
+  const tr = (d.transcript && d.transcript !== '(转录失败)' && d.transcript !== '(无口播内容)') ? d.transcript : '';
+  el.innerHTML = `
+    <div class="embed" data-pid="${d.id}"><div class="ph"><svg class="ic"><use href="#i-${typeIcon}"/></svg></div></div>
+    <div class="meta">
+      <div class="row1">
+        <span class="handle" title="拖到上方 tab 即可归类">${I('grip')}</span>
+        <a class="who" href="https://www.instagram.com/${d.competitor}/" target="_blank">@${d.competitor}</a>
+        <span class="badge">${d.type || '-'}</span>
+        ${days !== null && days <= 7 ? '<span class="badge bnew">' + I('star') + '新帖</span>' : ''}
+        ${horse ? '<span class="badge bhorse">' + I('zap') + '黑马</span>' : ''}
+        ${d.bait ? '<span class="badge bbait" title="「留言XX」引流打法 — 评论被引流放大,漏斗设计值得学">' + I('magnet') + '引流</span>' : ''}
+        <span class="date" title="${d.date || ''}">${ago}</span>
+      </div>
+      <div class="nums">
+        <span class="num hot" title="Viral Score">${I('flame')}<b>${d.score}</b></span>
+        ${(d.x || 0) >= 2 ? '<span class="num x" title="是自家平均热度的多少倍">' + I('trend') + '<b>×' + d.x + '</b></span>' : ''}
+        <span class="num er" title="Engagement Rate">${I('pct')}<b>${d.er}%</b></span>
+        <span class="num" title="Likes">${I('heart')}<b>${d.likes > 0 ? fmt(d.likes) : '隐藏'}</b></span>
+        <span class="num" title="Comments">${I('msg')}<b>${fmt(d.comments)}</b></span>
+        <span class="num" title="Followers">${I('users')}<b>${fmt(d.followers)}</b></span>
+      </div>
+      <div class="cap" onclick="this.classList.toggle('open')"></div>
+      ${d.brk ? '<div class="ai" onclick="this.classList.toggle(&quot;open&quot;)"></div>' : ''}
+      ${d.my ? '<div class="mine" onclick="this.classList.toggle(&quot;open&quot;)"></div>' : ''}
+      <div class="srow"><label>状态</label><select class="status btn s${d.status}"></select>
+        <button class="abtn copy" title="复制完整文案">${I('copy')}文案</button>
+        ${tr ? '<button class="abtn mic" title="复制视频口播逐字稿">' + I('mic') + '口播</button>' : ''}
+        ${d.my ? '<button class="abtn minec" title="复制我的改写口播稿(可直接拍)">' + I('mic') + '我的稿</button>' : ''}
+        <button class="abtn brief" title="复制拍摄 Brief(数据+Hook+AI拆解+我的稿+口播稿+文案)">${I('clip')}Brief</button>
+        <a class="abtn" href="${d.url}" target="_blank" title="打开 Instagram 原帖">${I('ext')}</a></div>
+    </div>`;
+  const capEl = el.querySelector('.cap');
+  const restTxt = lines.slice(1).join('\n');
+  capEl.innerHTML = hook ? '<b>' + esc(hook) + '</b>' + (restTxt ? '<br>' + esc(restTxt).replace(/\n/g, '<br>') : '') : '';
+  const aiEl = el.querySelector('.ai');
+  if (aiEl) aiEl.innerHTML = '<b>💡 AI 拆解</b><br>' + esc(d.brk).split(String.fromCharCode(10)).join('<br>');
+  const myEl = el.querySelector('.mine');
+  if (myEl) myEl.innerHTML = '<b>🎬 我的版本(可直接拍)</b><br>' + esc(d.my).split(String.fromCharCode(10)).join('<br>');
+  const sel = el.querySelector('.status');
+  STATUSES.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+  sel.value = d.status;
+  sel.onchange = () => setStatus(d, sel.value);
+  el.querySelector('.copy').onclick = () =>
+    navigator.clipboard.writeText(d.caption || '').then(() => toast('✓ 文案已复制', true));
+  const micBtn = el.querySelector('.mic');
+  if (micBtn) micBtn.onclick = () =>
+    navigator.clipboard.writeText(tr).then(() => toast('✓ 口播稿已复制', true));
+  const mineBtn = el.querySelector('.minec');
+  if (mineBtn) mineBtn.onclick = () =>
+    navigator.clipboard.writeText(d.my).then(() => toast('✓ 我的改写稿已复制', true));
+  el.querySelector('.brief').onclick = () => {
+    const NL = String.fromCharCode(10);
+    const parts = ['🎬 爆款参考 @' + d.competitor + ((d.x || 0) >= 2 ? '(自家平均 ×' + d.x + ')' : ''),
+      '📊 🔥' + d.score + ' | ER ' + d.er + '% | ❤️ ' + (d.likes > 0 ? fmt(d.likes) : '隐藏') +
+      ' | 💬 ' + fmt(d.comments) + ' | 👥 ' + fmt(d.followers) + (ago ? ' | ' + ago : ''),
+      '🔗 ' + d.url, '✍️ Hook: ' + hook];
+    if (d.brk) parts.push('——— AI 拆解 ———', d.brk);
+    if (d.my) parts.push('——— 我的版本(可直接拍)———', d.my);
+    if (tr) parts.push('——— 竞对原口播稿 ———', tr);
+    parts.push('——— 完整文案 ———', d.caption || '');
+    navigator.clipboard.writeText(parts.join(NL)).then(() => toast('✓ Brief 已复制,可直接发给拍摄/剪辑', true));
+  };
+  io.observe(el.querySelector('.embed'));
+  return el;
+}
+
+function render() {
+  renderTabs();
+  const arr = filtered();
+  const grid = $('grid'); grid.innerHTML = '';
+  arr.slice(0, shown).forEach((d, i) => grid.appendChild(card(d, i)));
+  $('empty').style.display = arr.length ? 'none' : '';
+  $('moreWrap').style.display = arr.length > shown ? '' : 'none';
+}
+
+
+function applyStatusCache() {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    Object.keys(c).forEach(rid => { const d = byRec[rid]; if (d) d.status = c[rid]; });
+  } catch (e) {}
+}
+
+function cacheStatus(rid, val) {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    c[rid] = val; localStorage.setItem('st_cache', JSON.stringify(c));
+  } catch (e) {}
+}
+
+// live status refresh (so weekly-baked page shows current statuses)
+async function refreshStatuses() {
+  applyStatusCache(); render();  // last-known statuses first
+  if (Date.now() - (+localStorage.getItem('st_ts') || 0) < 600000) return;  // 10-min throttle
+  localStorage.setItem('st_ts', String(Date.now()));
+  const fresh = {};
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?select=post_id,status', { headers: { 'apikey': ANON } });
+    if (!r.ok) return;
+    (await r.json()).forEach(row => {
+      const d = byRec[row.post_id];
+      if (d) d.status = row.status || '未处理';
+      if (row.status && row.status !== '未处理') fresh[row.post_id] = row.status;
+    });
+    localStorage.setItem('st_cache', JSON.stringify(fresh));
+    render();
+  } catch (e) {}
+}
+
+['fTracker','fComp','fSort'].forEach(id => $(id).onchange = () => { shown = PAGE; render(); });
+$('fSearch').oninput = () => { shown = PAGE; render(); };
+$('fVideo').onclick = () => { videoOnly = !videoOnly; $('fVideo').classList.toggle('on', videoOnly); shown = PAGE; render(); };
+$('moreBtn').onclick = () => { shown += PAGE; render(); };
+
+// preset quick filters
+$('presets').innerHTML = '<span class="lbl">快筛</span>';
+PRESETS.forEach(p => {
+  const c = document.createElement('span'); c.className = 'chip2';
+  c.innerHTML = I(p.icon) + esc(p.label);
+  c.onclick = () => { presetOn[p.k] = !presetOn[p.k]; c.classList.toggle('on', presetOn[p.k]); shown = PAGE; render(); };
+  $('presets').appendChild(c);
+});
+
+// trending hashtags among outlier posts
+if (TRENDS.length) {
+  $('trends').innerHTML = '<span class="lbl">爆款热词</span>';
+  TRENDS.forEach(([tag, n]) => {
+    const c = document.createElement('span'); c.className = 'chip2';
+    c.textContent = '#' + tag + ' ' + n;
+    c.onclick = () => { $('fSearch').value = $('fSearch').value === tag ? '' : tag; shown = PAGE; render(); };
+    $('trends').appendChild(c);
+  });
+} else { $('trends').style.display = 'none'; }
+
+render();
+refreshStatuses();
+</script>
+</body>
+</html>
